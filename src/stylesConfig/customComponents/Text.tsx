@@ -1,25 +1,25 @@
 export const TextStyle = {
-  // style object for base or default style
-  baseStyle: {
-    color: "#ffffff",
-  },
-  // styles for different sizes ("sm", "md", "lg")
-  sizes: {},
-  // styles for different visual variants ("outline", "solid")
-  variants: {
-    mainText: {
-      fontSize: "15px",
-      fontWeight: "300",
-      lineHeight: "19px",
+    // style object for base or default style
+    baseStyle: {
+        color: '#ffffff',
     },
-    lightText: {
-      fontSize: "13px",
-      fontWeight: "300",
-      lineHeight: "17px",
+    // styles for different sizes ("sm", "md", "lg")
+    sizes: {},
+    // styles for different visual variants ("outline", "solid")
+    variants: {
+        medium: {
+            fontSize: '13px',
+            fontWeight: '500',
+            lineHeight: '26px',
+        },
+        small: {
+            fontSize: '12px',
+            fontWeight: '700',
+            lineHeight: '15px',
+        },
     },
-  },
-  // default values for `size` and `variant`
-  defaultProps: {
-    variant: "primary",
-  },
-};
+    // default values for `size` and `variant`
+    defaultProps: {
+        variant: 'medium',
+    },
+}

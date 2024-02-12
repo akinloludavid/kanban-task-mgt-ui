@@ -11,10 +11,10 @@ const components = {
   Input,
 };
 export const customTheme = extendTheme({
-  fonts: {
-    heading: "Outfit, sans-serif",
-    body: "Outfit, sans-serif",
-  },
-  components,
-  colors,
-});
+    fonts: {
+        heading: 'Plus Jakarta Sans Variable, sans-serif',
+        body: 'Plus Jakarta Sans Variable, sans-serif',
+    },
+    components,
+    colors,
+})
