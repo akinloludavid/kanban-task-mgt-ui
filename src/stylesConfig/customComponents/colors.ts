@@ -16,7 +16,7 @@ export const colors = {
     secColor: '#A8A4FF',
     secBtnColor: '#E4EBFA',
     secBtnHoverColor: '#d8d7f1',
-
+    black: '#000000',
     secTextColor: '#828FA3',
     secBgColor: '#161d2f',
     white: '#ffffff',

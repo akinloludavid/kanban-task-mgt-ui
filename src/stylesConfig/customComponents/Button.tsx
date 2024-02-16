@@ -1,3 +1,5 @@
+import { StyleFunctionProps } from '@chakra-ui/react'
+
 export const ButtonStyles = {
     // style object for base or default style
     baseStyle: {
@@ -8,7 +10,7 @@ export const ButtonStyles = {
     sizes: {},
     // styles for different visual variants ("outline", "solid")
     variants: {
-        largePrimary: (props: any) => ({
+        largePrimary: (props: StyleFunctionProps) => ({
             bg: 'pryColor',
             fontSize: '15px',
             fontWeight: '700',
@@ -24,7 +26,7 @@ export const ButtonStyles = {
                 width: 'full',
             },
         }),
-        primary: (props: any) => ({
+        primary: (props: StyleFunctionProps) => ({
             bg: 'pryColor',
             fontSize: '15px',
             fontWeight: '700',
@@ -40,8 +42,8 @@ export const ButtonStyles = {
                 width: 'full',
             },
         }),
-        secondary: (props: any) => ({
-            bg: 'secBtnColor',
+        secondary: (props: StyleFunctionProps) => ({
+            bg: props.colorMode === 'dark' ? '#EFEFF9' : 'secBtnColor',
             fontSize: '15px',
             fontWeight: '700',
             lineHeight: '19px',
@@ -50,7 +52,7 @@ export const ButtonStyles = {
             width: '255px',
             height: '40px',
             _hover: {
-                bg: 'secBtnHoverColor',
+                bg: props.colorMode === 'dark' ? 'white' : 'secBtnHoverColor',
             },
             '@media (max-width:480px)': {
                 width: 'full',

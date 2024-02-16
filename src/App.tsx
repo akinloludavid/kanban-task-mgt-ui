@@ -1,10 +1,10 @@
-import { Button } from '@chakra-ui/react'
+import { Pages } from './routes'
 
 function App() {
     return (
-        <div className='App'>
-            <Button variant={'largePrimary'}>Hi there</Button>
-        </div>
+        <>
+            <Pages />
+        </>
     )
 }
 

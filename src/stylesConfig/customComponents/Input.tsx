@@ -1,62 +1,55 @@
 // https://github.com/chakra-ui/chakra-ui/blob/main/packages/theme/components/input.ts
 
-const search = {
-  field: {
-    caretColor: "#fc4747",
-    borderRadius: "none",
-    paddingBottom: "15px",
-    border: "none",
-    outline: "none",
-    bgColor: "transparent",
-    fontSize: "24px",
-    fontWeight: "300",
-    lineHeight: "30px",
-    w: ["100%"],
-    color: "#fff",
-    _placeholder: {
-      color: "#fff",
-      opacity: 0.5,
-      fontSize: ["16px", "24px"],
-      fontWeight: "300",
-      lineHeight: "30px",
+import { StyleFunctionProps } from '@chakra-ui/react'
+
+const primary = (props: StyleFunctionProps) => ({
+    field: {
+        borderRadius: '4px',
+        border: '2px solid #E4EBFA',
+        outline: 'none',
+        bgColor: 'transparent',
+        fontSize: '13px',
+        fontWeight: '500',
+        lineHeight: '30px',
+        height: '40px',
+        w: ['100%'],
+        color: props.colorMode === 'dark' ? '#fff' : '#000',
+        _placeholder: {
+            color: 'secTextColor',
+            fontSize: '13px',
+            fontWeight: '500',
+            lineHeight: '30px',
+        },
     },
-    _focus: {
-      borderBottom: "1px solid #5A698F",
+})
+
+const danger = (props: StyleFunctionProps) => ({
+    field: {
+        borderRadius: '4px',
+        border: '2px solid #ea5555',
+        outline: 'none',
+        bgColor: 'transparent',
+        fontSize: '13px',
+        fontWeight: '500',
+        lineHeight: '30px',
+        height: '40px',
+        w: ['100%'],
+        color: '#ea5555',
+        _placeholder: {
+            color: 'secTextColor',
+            fontSize: '13px',
+            fontWeight: '500',
+            lineHeight: '30px',
+        },
     },
-  },
-};
-const primary = {
-  field: {
-    caretColor: "#fc4747",
-    borderRadius: "none",
-    paddingBottom: "18px",
-    border: "none",
-    borderBottom: "1px solid #5A698F",
-    bgColor: "transparent",
-    fontSize: "15px",
-    fontWeight: "300",
-    lineHeight: "30px",
-    color: "#fff",
-    _placeholder: {
-      color: "#fff",
-      opacity: 0.5,
-      fontSize: "15px",
-      fontWeight: "300",
-      lineHeight: "30px",
-    },
-    _focus: {
-      border: "none",
-      borderBottom: "1px solid #ffffff",
-    },
-  },
-};
+})
 export const InputStyles = {
-  baseStyle: {},
-  variants: {
-    search,
-    primary,
-  },
-  defaultProps: {
-    variant: "primary",
-  },
-};
+    baseStyle: {},
+    variants: {
+        primary,
+        danger,
+    },
+    defaultProps: {
+        variant: 'primary',
+    },
+}

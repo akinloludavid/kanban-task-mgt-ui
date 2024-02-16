@@ -1,3 +1,5 @@
+import { StyleFunctionProps } from '@chakra-ui/react'
+
 export const HeadingStyle = {
     // style object for base or default style
     baseStyle: {
@@ -7,33 +9,33 @@ export const HeadingStyle = {
     sizes: {},
     // styles for different visual variants ("outline", "solid")
     variants: {
-        h1: {
+        h1: (props: StyleFunctionProps) => ({
             fontSize: '24px',
             fontWeight: '700',
             lineHeight: '30px',
-            color: '#ffffff',
-        },
-        h2: {
+            color: props.colorMode === 'dark' ? '#fff' : 'black',
+        }),
+        h2: (props: StyleFunctionProps) => ({
             fontSize: '18px',
             fontWeight: '700',
             lineHeight: '23px',
-            color: '#ffffff',
-        },
+            color: props.colorMode === 'dark' ? '#fff' : 'black',
+        }),
         h3: {
             fontSize: '15px',
             fontWeight: '700',
             lineHeight: '19px',
-            color: '#ffffff',
+            color: 'black',
         },
         h4: {
             fontSize: '12px',
             fontWeight: '500',
             lineHeight: '15px',
-            color: '#ffffff',
+            color: 'black',
         },
     },
     // default values for `size` and `variant`
     defaultProps: {
-        variant: 'primary',
+        variant: 'h1',
     },
 }

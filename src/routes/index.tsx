@@ -1,16 +1,23 @@
 import { useRoutes } from "react-router-dom";
-import PageLayout from "../components/PageLayout";
-import { AppRoutes } from "./routes";
+import { PublicPageLayout, PrivatePageLayout } from '../layout/PageLayout'
+import { userInfo } from '../utils/helpers'
+import { PublicRoutes } from './routes'
 
-export const AppRouteWrapper = () => {
-  const routes = useRoutes(AppRoutes);
-  return routes;
-};
+export const PublicAppRouteWrapper = () => {
+    const routes = useRoutes(PublicRoutes)
+    return routes
+}
 
 export const Pages = () => {
-  return (
-    <PageLayout>
-      <AppRouteWrapper />;
-    </PageLayout>
-  );
-};
+    return (
+        <>
+            {userInfo ? (
+                <PrivatePageLayout>''</PrivatePageLayout>
+            ) : (
+                <PublicPageLayout>
+                    <PublicAppRouteWrapper />
+                </PublicPageLayout>
+            )}
+        </>
+    )
+}

@@ -11,6 +11,8 @@ const components = {
   Input,
 };
 export const customTheme = extendTheme({
+    initialColorMode: 'system',
+    useSystemColorMode: true,
     fonts: {
         heading: 'Plus Jakarta Sans Variable, sans-serif',
         body: 'Plus Jakarta Sans Variable, sans-serif',

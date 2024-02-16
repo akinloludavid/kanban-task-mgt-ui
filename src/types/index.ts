@@ -8,11 +8,14 @@ export interface IAppRoute {
 export interface IChildren {
   children: React.ReactNode;
 }
-export interface ITrendingCard {
-  bgImage?: any;
-  title: string;
-  year: number | string;
-  category: string;
-  rating: string;
-  isBookMarked: boolean;
+
+
+export interface ISubtask {
+    subtitle: string
+    done: boolean
+}
+
+export interface ISignUpPayload {
+    email: string
+    password: string
 }
