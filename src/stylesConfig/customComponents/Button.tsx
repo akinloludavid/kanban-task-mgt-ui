@@ -36,7 +36,13 @@ export const ButtonStyles = {
             width: '255px',
             height: '40px',
             _hover: {
-                bg: '#A8A4FF',
+                backgroudColor: 'secColor',
+            },
+            _disabled: {
+                bg: 'secColor',
+            },
+            _active: {
+                bg: 'pryColor',
             },
             '@media (max-width:480px)': {
                 width: 'full',

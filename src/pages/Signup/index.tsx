@@ -49,11 +49,7 @@ const SignUp = () => {
             validationSchema: signUpSchema,
             onSubmit,
         })
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault()
-        onSubmit(values)
-    }
-    console.log(!dirty)
+
     return (
         <Box>
             <AuthContainer>
@@ -102,8 +98,17 @@ const SignUp = () => {
                         w='full'
                         isLoading={isCreateAccountLoading}
                         onClick={() => onSubmit(values)}
+                        isDisabled={
+                            !dirty ||
+                            Object.keys(errors).length > 0 ||
+                            isCreateAccountLoading
+                        }
+                        _hover={{
+                            bgColor: 'secColor',
+                        }}
+                        variant='primary'
                     >
-                        SUBMIT
+                        Submit
                     </Button>
                     <Flex align={'center'} gap='8px'>
                         <Text>Already have an account?</Text>

@@ -5,7 +5,10 @@ import { StyleFunctionProps } from '@chakra-ui/react'
 const primary = (props: StyleFunctionProps) => ({
     field: {
         borderRadius: '4px',
-        border: '2px solid #E4EBFA',
+        border:
+            props.colorMode === 'dark'
+                ? '2px solid #E4EBFA'
+                : '2px solid #828FA3',
         outline: 'none',
         bgColor: 'transparent',
         fontSize: '13px',

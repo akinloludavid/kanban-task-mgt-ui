@@ -1,4 +1,4 @@
-import { FormikHelpers, useFormik } from 'formik'
+import { FormikHelpers, FormikProps, useFormik } from 'formik'
 import * as Yup from 'yup'
 
 interface ICustomFormik<T> {
@@ -19,10 +19,18 @@ export const useCustomFormik = <T>({
 
         enableReinitialize: true,
         onSubmit,
+        validateOnMount: true,
         ...options,
     })
 }
 export const signUpSchema = Yup.object({
+    email: Yup.string()
+        .required('Please provide your email')
+        .email('Invalid email'),
+    password: Yup.string().required('Please provide your password'),
+})
+
+export const loginSchema = Yup.object({
     email: Yup.string()
         .required('Please provide your email')
         .email('Invalid email'),
