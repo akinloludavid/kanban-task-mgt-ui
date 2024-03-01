@@ -36,3 +36,8 @@ export const loginSchema = Yup.object({
         .email('Invalid email'),
     password: Yup.string().required('Please provide your password'),
 })
+
+export const createBoardSchema = Yup.object({
+    name: Yup.string().required('Please provide board name'),
+    columns: Yup.array().of(Yup.string().required('Required')),
+})

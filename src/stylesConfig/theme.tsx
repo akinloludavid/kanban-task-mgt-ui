@@ -5,11 +5,13 @@ import { HeadingStyle as Heading } from "./customComponents/Heading";
 import { InputStyles as Input } from "./customComponents/Input";
 import { colors } from "./customComponents/colors";
 import { switchTheme } from './customComponents/Switch'
+import { FormLabel } from './customComponents/FormLabel'
 const components = {
     Button,
     Text,
     Heading,
     Input,
+    FormLabel,
     Switch: switchTheme,
 }
 export const customTheme = extendTheme({

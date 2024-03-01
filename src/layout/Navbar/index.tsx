@@ -1,12 +1,14 @@
-import { useColorMode } from '@chakra-ui/react'
+import { useColorMode, useColorModeValue } from '@chakra-ui/react'
 import { Box, Button, Flex, Heading } from '@chakra-ui/react'
 import { FaPlus } from 'react-icons/fa'
 
 const Navbar = () => {
     const { colorMode } = useColorMode()
     const isDark = colorMode === 'dark'
+    const navBarBg = useColorModeValue('light.secBg', 'dark.secBg')
     return (
         <Flex
+            bgColor={navBarBg}
             h={['96px']}
             align='center'
             justify={'space-between'}

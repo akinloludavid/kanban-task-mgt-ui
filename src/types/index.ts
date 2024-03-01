@@ -24,3 +24,13 @@ export interface ILoginPayload {
     email: string
     password: string
 }
+
+export interface IDialog {
+    isOpen: boolean
+    onClose: () => void
+}
+
+export interface ICreateBoardBody {
+    name: string
+    columns: string[]
+}

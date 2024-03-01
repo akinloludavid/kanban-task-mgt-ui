@@ -7,8 +7,8 @@ const primary = (props: StyleFunctionProps) => ({
         borderRadius: '4px',
         border:
             props.colorMode === 'dark'
-                ? '2px solid #E4EBFA'
-                : '2px solid #828FA3',
+                ? '1px solid #E4EBFA'
+                : '1px solid #828FA3',
         outline: 'none',
         bgColor: 'transparent',
         fontSize: '13px',
@@ -29,7 +29,7 @@ const primary = (props: StyleFunctionProps) => ({
 const danger = (props: StyleFunctionProps) => ({
     field: {
         borderRadius: '4px',
-        border: '2px solid #ea5555',
+        border: '1px solid #ea5555',
         outline: 'none',
         bgColor: 'transparent',
         fontSize: '13px',

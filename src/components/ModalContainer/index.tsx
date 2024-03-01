@@ -27,11 +27,14 @@ const ModalContainer = ({
     return (
         <Modal isOpen={isOpen} onClose={onClose} isCentered>
             <ModalOverlay />
-            <ModalContent>
+            <ModalContent py='24px'>
                 <ModalHeader
                     display={'flex'}
                     alignItems='center'
                     justifyContent={'space-between'}
+                    my='0'
+                    py='0'
+                    mb='16px'
                 >
                     <Heading>{title}</Heading>
                     <Icon

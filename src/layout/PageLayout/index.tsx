@@ -9,12 +9,12 @@ export const PublicPageLayout = ({ children }: IChildren) => {
 
 export const PrivatePageLayout = ({ children }: IChildren) => {
     return (
-        <>
+        <Box mx='auto' position={'relative'} maxW='1440px'>
             <Sidebar />
             <Box pl={['300px']}>
                 <Navbar />
                 {children}
             </Box>
-        </>
+        </Box>
     )
 }
