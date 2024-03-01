@@ -18,7 +18,7 @@ export const useAccountLogin = () => {
         mutationFn: (payload: ILoginPayload) => accountLogin(payload),
         mutationKey: '/auth/login',
         onSuccess: res => {
-            setLocalStorage(USER_AUTH_KEY, res.data?.user)
+            setLocalStorage(USER_AUTH_KEY, res.data)
             successToast('Login successful')
             window.location.href = DASHBOARD
         },

@@ -5,7 +5,7 @@ import { BrowserRouter } from "react-router-dom";
 import { customTheme } from "./stylesConfig/theme";
 import App from './App'
 import { QueryClient, QueryClientProvider } from 'react-query'
-
+import '@fontsource-variable/plus-jakarta-sans'
 const queryClient = new QueryClient({
     defaultOptions: {
         queries: {

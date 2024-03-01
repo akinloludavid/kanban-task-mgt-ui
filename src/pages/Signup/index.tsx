@@ -14,7 +14,7 @@ import { LOGIN_PAGE } from '../../routes/pathnames'
 import AuthContainer from '../Auth'
 import { IoMdEyeOff } from 'react-icons/io'
 import { IoEye } from 'react-icons/io5'
-import { FormEventHandler, useState } from 'react'
+import { useState } from 'react'
 import { signUpSchema, useCustomFormik } from '../../utils/validations'
 import { ISignUpPayload } from '../../types'
 import CustomInput from '../../components/CustomInput'
@@ -43,12 +43,19 @@ const SignUp = () => {
             },
         })
     }
-    const { values, handleChange, handleBlur, touched, errors, dirty } =
-        useCustomFormik<ISignUpPayload>({
-            initialValues,
-            validationSchema: signUpSchema,
-            onSubmit,
-        })
+    const {
+        values,
+        handleChange,
+        handleBlur,
+        touched,
+        errors,
+        dirty,
+        isValid,
+    } = useCustomFormik<ISignUpPayload>({
+        initialValues,
+        validationSchema: signUpSchema,
+        onSubmit,
+    })
 
     return (
         <Box>
@@ -99,9 +106,7 @@ const SignUp = () => {
                         isLoading={isCreateAccountLoading}
                         onClick={() => onSubmit(values)}
                         isDisabled={
-                            !dirty ||
-                            Object.keys(errors).length > 0 ||
-                            isCreateAccountLoading
+                            !dirty || !isValid || isCreateAccountLoading
                         }
                         _hover={{
                             bgColor: 'secColor',

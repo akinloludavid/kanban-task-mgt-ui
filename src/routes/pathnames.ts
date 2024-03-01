@@ -4,3 +4,4 @@ export const AUTH_PAGE = '/auth'
 export const SIGNUP_PAGE = '/auth/signup'
 
 export const DASHBOARD = '/dashboard'
+export const BOARD_PAGE = '/dashboard/board/:id'

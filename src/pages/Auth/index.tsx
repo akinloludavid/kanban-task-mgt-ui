@@ -6,10 +6,10 @@ import {
     useColorModeValue,
 } from '@chakra-ui/react'
 import ColorModeToggle from '../../components/ColorModeToggle'
+import Logo from '../../components/Logo'
 import { IChildren } from '../../types'
 
 const AuthContainer = ({ children }: IChildren) => {
-    const { colorMode } = useColorMode()
     const formBg = useColorModeValue('#f3f3f3', '#2b2c37')
     return (
         <Box>
@@ -19,13 +19,7 @@ const AuthContainer = ({ children }: IChildren) => {
                 justify='space-between'
                 align={'center'}
             >
-                <Image
-                    src={
-                        colorMode === 'dark'
-                            ? '/assets/logo-light.svg'
-                            : '/assets/logo-dark.svg'
-                    }
-                />
+                <Logo />
                 <ColorModeToggle />
             </Flex>
             <Flex

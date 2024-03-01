@@ -4,12 +4,14 @@ import { TextStyle as Text } from "./customComponents/Text";
 import { HeadingStyle as Heading } from "./customComponents/Heading";
 import { InputStyles as Input } from "./customComponents/Input";
 import { colors } from "./customComponents/colors";
+import { switchTheme } from './customComponents/Switch'
 const components = {
-  Button,
-  Text,
-  Heading,
-  Input,
-};
+    Button,
+    Text,
+    Heading,
+    Input,
+    Switch: switchTheme,
+}
 export const customTheme = extendTheme({
     initialColorMode: 'system',
     useSystemColorMode: true,
