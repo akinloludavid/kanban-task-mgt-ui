@@ -3,7 +3,6 @@ import { useGetBoards } from './api'
 
 const Dashboard = () => {
     const { data } = useGetBoards()
-    console.log(data)
     return <div>Dashboard</div>
 }
 

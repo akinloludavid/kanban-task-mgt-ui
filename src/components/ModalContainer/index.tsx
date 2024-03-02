@@ -16,6 +16,7 @@ interface IModalContainer extends IChildren {
     isOpen: boolean
     onClose: () => void
     showOptions?: boolean
+    titleColor?: string
 }
 const ModalContainer = ({
     title,
@@ -23,6 +24,7 @@ const ModalContainer = ({
     onClose,
     showOptions = false,
     children,
+    titleColor,
 }: IModalContainer) => {
     return (
         <Modal isOpen={isOpen} onClose={onClose} isCentered>
@@ -36,14 +38,16 @@ const ModalContainer = ({
                     py='0'
                     mb='16px'
                 >
-                    <Heading>{title}</Heading>
+                    <Heading color={titleColor}>{title}</Heading>
                     <Icon
                         display={showOptions ? 'flex' : 'none'}
                         as={IoEllipsisVertical}
                         cursor='pointer'
                     />
                 </ModalHeader>
-                <ModalBody>{children}</ModalBody>
+                <ModalBody py='0px' px='24px'>
+                    {children}
+                </ModalBody>
             </ModalContent>
         </Modal>
     )

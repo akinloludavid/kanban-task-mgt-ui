@@ -8,6 +8,7 @@ export const useCustomToast = () => {
             status: 'success',
             duration: 5000,
             title: msg,
+            isClosable: true,
         })
     }
     const errorToast = (msg: string) => {
@@ -16,6 +17,7 @@ export const useCustomToast = () => {
             status: 'error',
             duration: 5000,
             title: msg,
+            isClosable: true,
         })
     }
     return {

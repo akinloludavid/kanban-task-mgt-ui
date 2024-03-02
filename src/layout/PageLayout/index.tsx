@@ -13,7 +13,7 @@ export const PrivatePageLayout = ({ children }: IChildren) => {
             <Sidebar />
             <Box pl={['300px']}>
                 <Navbar />
-                {children}
+                <Box p='16px'>{children}</Box>
             </Box>
         </Box>
     )

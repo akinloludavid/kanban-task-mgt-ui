@@ -8,7 +8,6 @@ import { USER_AUTH_KEY } from '../config/config'
 import { LOGIN_PAGE } from '../routes/pathnames'
 import { userInfo } from '../utils/helpers'
 import { baseUrl } from './config'
-console.log(userInfo)
 const axiosInstance: AxiosInstance = axios.create({
     baseURL: baseUrl,
     headers: {
@@ -36,8 +35,8 @@ const onResponseError = async (error: AxiosError) => {
     const statusCode = error.response!.status
     const originalRequest: any = error.config
     if (statusCode === 401 && userInfo) {
-        // localStorage.removeItem(USER_AUTH_KEY)
-        // window.location.href = LOGIN_PAGE
+        localStorage.removeItem(USER_AUTH_KEY)
+        window.location.href = LOGIN_PAGE
         return axiosInstance(originalRequest)
     }
     return Promise.reject(error)

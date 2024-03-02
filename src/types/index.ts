@@ -34,3 +34,12 @@ export interface ICreateBoardBody {
     name: string
     columns: string[]
 }
+export interface ICreateTask {
+    title: string
+    description: string
+    status: string
+    subtasks: {
+        subtitle: string
+        done: boolean
+    }[]
+}

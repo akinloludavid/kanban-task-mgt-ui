@@ -41,3 +41,14 @@ export const createBoardSchema = Yup.object({
     name: Yup.string().required('Please provide board name'),
     columns: Yup.array().of(Yup.string().required('Required')),
 })
+export const createTaskSchema = Yup.object({
+    title: Yup.string().required('Required'),
+    description: Yup.string().required('Required'),
+    status: Yup.string().required('Required'),
+    subtasks: Yup.array().of(
+        Yup.object({
+            subtitle: Yup.string().required('Required'),
+            done: Yup.boolean().required(),
+        }),
+    ),
+})

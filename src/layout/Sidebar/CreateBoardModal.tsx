@@ -1,22 +1,32 @@
 import { Button, Flex, FormControl, Icon } from '@chakra-ui/react'
-import { FormLabel, Text } from '@chakra-ui/react'
-import { Field, FieldArray, Form, Formik, ErrorMessage } from 'formik'
+import { FormLabel } from '@chakra-ui/react'
+import { Field, FieldArray, Form, Formik } from 'formik'
 import { FaTimes } from 'react-icons/fa'
 import CustomInput from '../../components/CustomInput'
 import ModalContainer from '../../components/ModalContainer'
+import { useGetBoards } from '../../pages/Dashboard/api'
 import { ICreateBoardBody, IDialog } from '../../types'
 import { useCustomToast } from '../../utils/toast'
-import { createBoardSchema, useCustomFormik } from '../../utils/validations'
+import { createBoardSchema } from '../../utils/validations'
+import { useCreateBoard } from './api'
 
 const CreateBoardModal = ({ onClose, isOpen }: IDialog) => {
-    const initialValues = {
+    const { mutate: mutateCreateBoard, isLoading: isBoardCreationLoading } =
+        useCreateBoard()
+
+    const { refetch: refetchBoards } = useGetBoards()
+    const initialValues: ICreateBoardBody = {
         name: '',
         columns: [],
     }
     const { successToast } = useCustomToast()
     const onSubmit = (values: ICreateBoardBody) => {
-        alert(JSON.stringify(values))
-        successToast('here')
+        mutateCreateBoard(values, {
+            onSuccess: res => {
+                refetchBoards()
+                successToast(`Board created successfully`)
+            },
+        })
     }
 
     return (
@@ -41,6 +51,7 @@ const CreateBoardModal = ({ onClose, isOpen }: IDialog) => {
                         setFieldValue,
                         setFieldError,
                         setErrors,
+                        setValues,
                     }) => (
                         <Form>
                             <Flex flexDir={'column'} gap='16px'>
@@ -67,7 +78,6 @@ const CreateBoardModal = ({ onClose, isOpen }: IDialog) => {
                                             const columnValues: any = values
                                             const columnTouched: any = touched
                                             const columnErrors: any = errors
-                                            console.log(columnErrors)
 
                                             return (
                                                 <Flex
@@ -85,6 +95,21 @@ const CreateBoardModal = ({ onClose, isOpen }: IDialog) => {
                                                                 <CustomInput
                                                                     as={Field}
                                                                     name={`columns${index}`}
+                                                                    error={
+                                                                        columnTouched
+                                                                            ?.columns?.[
+                                                                            index
+                                                                        ] &&
+                                                                        columnErrors
+                                                                            ?.columns?.[
+                                                                            index
+                                                                        ]
+                                                                            ? columnErrors
+                                                                                  ?.columns?.[
+                                                                                  index
+                                                                              ]
+                                                                            : ''
+                                                                    }
                                                                     placeholder=''
                                                                     onChange={e => {
                                                                         const val =
@@ -100,6 +125,28 @@ const CreateBoardModal = ({ onClose, isOpen }: IDialog) => {
                                                                                     .target
                                                                                     .value,
                                                                             )
+                                                                            setValues(
+                                                                                prev => {
+                                                                                    const newColumns =
+                                                                                        prev.columns.map(
+                                                                                            (
+                                                                                                col,
+                                                                                                idx,
+                                                                                            ) =>
+                                                                                                idx ===
+                                                                                                index
+                                                                                                    ? val
+                                                                                                    : col,
+                                                                                        )
+                                                                                    const updatedValues =
+                                                                                        {
+                                                                                            name: values.name,
+                                                                                            columns:
+                                                                                                newColumns,
+                                                                                        }
+                                                                                    return updatedValues
+                                                                                },
+                                                                            )
                                                                             setFieldError(
                                                                                 `columns${index}`,
                                                                                 '',
@@ -111,24 +158,29 @@ const CreateBoardModal = ({ onClose, isOpen }: IDialog) => {
                                                                                         [],
                                                                                 },
                                                                             )
+                                                                        } else {
+                                                                            setErrors(
+                                                                                {
+                                                                                    ...errors,
+                                                                                    columns:
+                                                                                        columnErrors
+                                                                                            ?.columns[
+                                                                                            index
+                                                                                        ],
+                                                                                },
+                                                                            )
                                                                         }
                                                                     }}
-                                                                    error={
-                                                                        columnTouched?.[
-                                                                            `columns${index}`
-                                                                        ] &&
-                                                                        columnErrors?.[
-                                                                            `columns${index}`
+                                                                    value={
+                                                                        values
+                                                                            .columns[
+                                                                            index
                                                                         ]
-                                                                            ? columnErrors?.[
-                                                                                  `columns${index}`
+                                                                            ? values
+                                                                                  .columns[
+                                                                                  index
                                                                               ]
                                                                             : ''
-                                                                    }
-                                                                    value={
-                                                                        columnValues?.[
-                                                                            `columns${index}`
-                                                                        ]
                                                                     }
                                                                 />
                                                                 <Icon
@@ -163,7 +215,11 @@ const CreateBoardModal = ({ onClose, isOpen }: IDialog) => {
                                         }}
                                     />
                                 </FormControl>
-                                <Button w='full' type='submit'>
+                                <Button
+                                    w='full'
+                                    type='submit'
+                                    isLoading={isBoardCreationLoading}
+                                >
                                     Create New Board
                                 </Button>
                             </Flex>

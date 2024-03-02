@@ -12,7 +12,7 @@ const CustomInput = ({ error, ...rest }: ICustomInput) => {
                 <Text
                     top='50%'
                     right='4%'
-                    cursor='pointer'
+                    variant={'small'}
                     transform='translateY(-50%)'
                     position='absolute'
                     hidden={!error}
