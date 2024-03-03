@@ -1,4 +1,4 @@
-import { Box } from '@chakra-ui/react'
+import { Box, useColorModeValue } from '@chakra-ui/react'
 import { IChildren } from '../../types'
 import Navbar from '../Navbar'
 import Sidebar from '../Sidebar'
@@ -8,10 +8,17 @@ export const PublicPageLayout = ({ children }: IChildren) => {
 }
 
 export const PrivatePageLayout = ({ children }: IChildren) => {
+    const secBg = useColorModeValue('light.mainBg', 'dark.mainBg')
     return (
-        <Box mx='auto' position={'relative'} maxW='1440px'>
+        <Box
+            mx='auto'
+            position={'relative'}
+            maxW='1440px'
+            bgColor={secBg}
+            minH='100vh'
+        >
             <Sidebar />
-            <Box pl={['300px']}>
+            <Box pl={['300px']} h={'100%'}>
                 <Navbar />
                 <Box p='16px'>{children}</Box>
             </Box>

@@ -6,6 +6,7 @@ import { InputStyles as Input } from "./customComponents/Input";
 import { colors } from "./customComponents/colors";
 import { switchTheme } from './customComponents/Switch'
 import { FormLabel } from './customComponents/FormLabel'
+// import { checkboxTheme } from './customComponents/Checkbox'
 const components = {
     Button,
     Text,
@@ -13,6 +14,7 @@ const components = {
     Input,
     FormLabel,
     Switch: switchTheme,
+    // Checkbox: checkboxTheme,
 }
 export const customTheme = extendTheme({
     initialColorMode: 'system',

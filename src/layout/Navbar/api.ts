@@ -8,7 +8,23 @@ const deleteBoard = async (boardId: string) => {
 }
 
 const createTask = async (taskBody: ICreateTask, boardId: string) => {
-    const res = await axiosInstance.post(`/boards/${boardId}`, taskBody)
+    const res = await axiosInstance.post(`/tasks/${boardId}`, taskBody)
+    return res.data?.data || res.data
+}
+
+const updateTask = async (
+    taskBody: ICreateTask,
+    boardId: string,
+    taskId: string,
+) => {
+    const res = await axiosInstance.put(
+        `/task/update/${boardId}/${taskId}`,
+        taskBody,
+    )
+    return res.data?.data || res.data
+}
+const deleteTask = async (boardId: string, taskId: string) => {
+    const res = await axiosInstance.delete(`/task/delete/${boardId}/${taskId}`)
     return res.data?.data || res.data
 }
 
@@ -29,5 +45,25 @@ export const useCreateTask = () => {
             body: ICreateTask
             boardId: string
         }) => createTask(body, boardId),
+    })
+}
+
+export const useUpdateTask = (taskId: string) => {
+    return useMutation({
+        mutationKey: `/update-task`,
+        mutationFn: ({
+            body,
+            boardId,
+        }: {
+            body: ICreateTask
+            boardId: string
+        }) => updateTask(body, boardId, taskId),
+    })
+}
+export const useDeleteTask = (taskId: string) => {
+    return useMutation({
+        mutationKey: `/delete-task`,
+        mutationFn: ({ boardId }: { boardId: string }) =>
+            deleteTask(boardId, taskId),
     })
 }

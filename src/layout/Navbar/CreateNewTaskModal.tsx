@@ -4,18 +4,51 @@ import {
     FormControl,
     FormLabel,
     Icon,
+    Select,
+    Text,
     Textarea,
 } from '@chakra-ui/react'
 import { Field, FieldArray, Form, Formik } from 'formik'
-import React from 'react'
 import { FaTimes } from 'react-icons/fa'
 import CustomInput from '../../components/CustomInput'
 import ModalContainer from '../../components/ModalContainer'
+import { useAppContext } from '../../context/AppContext'
+import { useGetBoardById, useGetTasksInABoard } from '../../pages/Board/api'
 import { ICreateTask, IDialog } from '../../types'
-import { createBoardSchema, createTaskSchema } from '../../utils/validations'
+import { useCustomToast } from '../../utils/toast'
+import { createTaskSchema } from '../../utils/validations'
+import { useCreateTask } from './api'
 
 const CreateNewTaskModal = ({ isOpen, onClose }: IDialog) => {
-    const onSubmit = (values: ICreateTask) => {}
+    const { currentBoard } = useAppContext()
+    const { data: board, refetch: refetchCurrentBoard } =
+        useGetBoardById(currentBoard)
+    const { refetch: refetchTasksInBoard } = useGetTasksInABoard(currentBoard)
+    const { mutate: mutateCreateTask, isLoading: isCreatingTask } =
+        useCreateTask()
+    const { successToast, errorToast } = useCustomToast()
+    const onSubmit = (values: ICreateTask, { resetForm }: any) => {
+        console.log(values)
+        const payload = {
+            body: values,
+            boardId: board?._id,
+        }
+        mutateCreateTask(payload, {
+            onSuccess: () => {
+                successToast(`Task ${values.title} created`)
+                resetForm()
+                onClose()
+                refetchCurrentBoard()
+                refetchTasksInBoard()
+            },
+            onError: (err: any) => {
+                errorToast(
+                    err?.response?.data?.message ||
+                        `Error occurred creating task`,
+                )
+            },
+        })
+    }
     const initialValues: ICreateTask = {
         title: '',
         description: '',
@@ -36,9 +69,7 @@ const CreateNewTaskModal = ({ isOpen, onClose }: IDialog) => {
                     touched,
                     handleChange,
                     handleBlur,
-                    setFieldValue,
-                    setFieldError,
-                    setErrors,
+
                     setValues,
                 }) => (
                     <Form>
@@ -63,12 +94,13 @@ const CreateNewTaskModal = ({ isOpen, onClose }: IDialog) => {
                                 <CustomInput
                                     as={Textarea}
                                     error={
-                                        touched.title && errors.title
-                                            ? errors.title
+                                        touched.description &&
+                                        errors.description
+                                            ? errors.description
                                             : ''
                                     }
-                                    name='title'
-                                    value={values.title}
+                                    name='description'
+                                    value={values.description}
                                     onChange={handleChange}
                                     onBlur={handleBlur}
                                     placeholder={`e.g. It’s always good to take a break. This 15 minute break will 
@@ -78,16 +110,18 @@ const CreateNewTaskModal = ({ isOpen, onClose }: IDialog) => {
                             <FormControl>
                                 <FormLabel>Subtasks</FormLabel>
                                 <FieldArray
-                                    name='columns'
+                                    name='subtasks'
                                     render={arrayHelpers => {
                                         const columnValues: any = values
                                         const columnTouched: any = touched
                                         const columnErrors: any = errors
-
+                                        console.log({ columnErrors })
+                                        console.log({ columnValues })
+                                        console.log({ columnTouched })
                                         return (
                                             <Flex flexDir={'column'} gap='8px'>
                                                 {values.subtasks.map(
-                                                    (column, index) => (
+                                                    (subtask, index) => (
                                                         <Flex
                                                             key={index}
                                                             align={'center'}
@@ -96,93 +130,70 @@ const CreateNewTaskModal = ({ isOpen, onClose }: IDialog) => {
                                                         >
                                                             <CustomInput
                                                                 as={Field}
-                                                                name={`columns${index}`}
-                                                                error={
-                                                                    columnTouched
-                                                                        ?.columns?.[
-                                                                        index
-                                                                    ] &&
-                                                                    columnErrors
-                                                                        ?.columns?.[
-                                                                        index
-                                                                    ]
-                                                                        ? columnErrors
-                                                                              ?.columns?.[
-                                                                              index
-                                                                          ]
-                                                                        : ''
-                                                                }
-                                                                placeholder=''
+                                                                name={`subtasks${index}.subtitle`}
                                                                 onChange={e => {
                                                                     const val =
                                                                         e.target
                                                                             .value
                                                                     if (val) {
-                                                                        setFieldValue(
-                                                                            `columns${index}`,
-                                                                            e
-                                                                                .target
-                                                                                .value,
-                                                                        )
                                                                         setValues(
                                                                             prev => {
-                                                                                const newColumns =
+                                                                                const newSubtasks =
                                                                                     prev.subtasks.map(
                                                                                         (
-                                                                                            col,
-                                                                                            idx,
+                                                                                            el,
+                                                                                            i,
                                                                                         ) =>
-                                                                                            idx ===
+                                                                                            i ===
                                                                                             index
-                                                                                                ? val
-                                                                                                : col,
+                                                                                                ? {
+                                                                                                      ...el,
+                                                                                                      subtitle:
+                                                                                                          e
+                                                                                                              .target
+                                                                                                              .value,
+                                                                                                  }
+                                                                                                : el,
                                                                                     )
-                                                                                const updatedValues: any =
+                                                                                const updatedVal =
                                                                                     {
-                                                                                        title: values.title,
-                                                                                        description:
-                                                                                            values.description,
-                                                                                        status: values.status,
+                                                                                        ...values,
                                                                                         subtasks:
-                                                                                            newColumns,
+                                                                                            newSubtasks,
                                                                                     }
-                                                                                return updatedValues
-                                                                            },
-                                                                        )
-                                                                        setFieldError(
-                                                                            `columns${index}`,
-                                                                            '',
-                                                                        )
-                                                                        setErrors(
-                                                                            {
-                                                                                ...errors,
-                                                                                subtasks:
-                                                                                    [],
-                                                                            },
-                                                                        )
-                                                                    } else {
-                                                                        setErrors(
-                                                                            {
-                                                                                ...errors,
-                                                                                subtasks:
-                                                                                    columnErrors
-                                                                                        ?.columns[
-                                                                                        index
-                                                                                    ],
+                                                                                return updatedVal
                                                                             },
                                                                         )
                                                                     }
                                                                 }}
+                                                                error={
+                                                                    columnTouched
+                                                                        ?.subtasks?.[
+                                                                        index
+                                                                    ]
+                                                                        ?.subtitle &&
+                                                                    columnErrors
+                                                                        ?.subtasks?.[
+                                                                        index
+                                                                    ]?.subtitle
+                                                                        ? columnErrors
+                                                                              ?.subtasks?.[
+                                                                              index
+                                                                          ]
+                                                                              ?.subtitle
+                                                                        : ''
+                                                                }
+                                                                placeholder=''
                                                                 value={
                                                                     values
                                                                         .subtasks[
                                                                         index
-                                                                    ].subtitle
+                                                                    ]?.subtitle
                                                                         ? values
                                                                               .subtasks[
                                                                               index
                                                                           ]
-                                                                              .subtitle
+                                                                              ?.subtitle
                                                                         : ''
                                                                 }
                                                             />
@@ -206,11 +217,41 @@ const CreateNewTaskModal = ({ isOpen, onClose }: IDialog) => {
                                                     variant={'secondary'}
                                                     w='full'
                                                     onClick={() =>
-                                                        arrayHelpers.push('')
+                                                        arrayHelpers.push({
+                                                            subtitle: '',
+                                                            done: false,
+                                                        })
                                                     }
                                                 >
                                                     + Add New Subtask
                                                 </Button>
+                                                <FormLabel>Status</FormLabel>
+                                                <Select
+                                                    placeholder='Status'
+                                                    onChange={handleChange}
+                                                    name='status'
+                                                    onBlur={handleBlur}
+                                                    value={values.status}
+                                                >
+                                                    {board?.columns?.map(
+                                                        (column: string) => (
+                                                            <option
+                                                                key={column}
+                                                            >
+                                                                {column}
+                                                            </option>
+                                                        ),
+                                                    )}
+                                                </Select>
+                                                <Text
+                                                    color='danger'
+                                                    variant='small'
+                                                >
+                                                    {touched.status &&
+                                                    errors.status
+                                                        ? errors?.status
+                                                        : ''}
+                                                </Text>
                                             </Flex>
                                         )
                                     }}
@@ -219,7 +260,7 @@ const CreateNewTaskModal = ({ isOpen, onClose }: IDialog) => {
                             <Button
                                 w='full'
                                 type='submit'
-                                // isLoading={isBoardCreationLoading}
+                                isLoading={isCreatingTask}
                             >
                                 Create Task
                             </Button>
