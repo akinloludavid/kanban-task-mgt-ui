@@ -38,6 +38,7 @@ export interface ICreateTask {
     title: string
     description: string
     status: string
+    boardId: string
     subtasks: {
         subtitle: string
         done: boolean

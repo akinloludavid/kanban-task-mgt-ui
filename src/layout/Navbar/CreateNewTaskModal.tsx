@@ -28,12 +28,7 @@ const CreateNewTaskModal = ({ isOpen, onClose }: IDialog) => {
         useCreateTask()
     const { successToast, errorToast } = useCustomToast()
     const onSubmit = (values: ICreateTask, { resetForm }: any) => {
-        console.log(values)
-        const payload = {
-            body: values,
-            boardId: board?._id,
-        }
-        mutateCreateTask(payload, {
+        mutateCreateTask(values, {
             onSuccess: () => {
                 successToast(`Task ${values.title} created`)
                 resetForm()
@@ -54,6 +49,7 @@ const CreateNewTaskModal = ({ isOpen, onClose }: IDialog) => {
         description: '',
         status: '',
         subtasks: [],
+        boardId: currentBoard,
     }
     return (
         <ModalContainer title='Add New Task' isOpen={isOpen} onClose={onClose}>

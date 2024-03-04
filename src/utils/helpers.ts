@@ -21,7 +21,7 @@ export const getTaskObjectFromList = (columns: any[], tasks: any[]) => {
         if (obj[status]?.length === 0) {
             obj[el?.status] = [el]
         } else {
-            obj[status].push(el)
+            obj[status]?.push(el)
         }
     })
     return obj

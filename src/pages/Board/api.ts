@@ -14,6 +14,7 @@ export const useGetTasksInABoard = (boardId: string) => {
     return useQuery({
         queryKey: `/tasks/${boardId}`,
         queryFn: () => getTasksInBoard(boardId),
+        enabled: !!boardId,
     })
 }
 

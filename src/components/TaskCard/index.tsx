@@ -61,11 +61,7 @@ const TaskCard = ({ title, subtasks, task }: ITaskCard) => {
         useDeleteTask(task?._id)
     const { successToast, errorToast, promiseToast, toast } = useCustomToast()
     const onSubmit = (values: ICreateTask, { resetForm }: any) => {
-        const payload = {
-            body: values,
-            boardId: currentBoard,
-        }
-        mutateUpdateTask(payload, {
+        mutateUpdateTask(values, {
             onSuccess: () => {
                 successToast(`Task ${values.title} updated`)
                 resetForm()
@@ -92,6 +88,7 @@ const TaskCard = ({ title, subtasks, task }: ITaskCard) => {
         title,
         description: task?.description,
         status: task?.status,
+        boardId: currentBoard,
     }
     const handleModalClose = () => {
         setIsOpen(false)
