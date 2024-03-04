@@ -20,8 +20,21 @@ export const useCustomToast = () => {
             isClosable: true,
         })
     }
+    const promiseToast = (msg: string, id?: string) => {
+        toast({
+            position: 'top-right',
+            status: 'loading',
+            duration: 5000,
+            title: msg,
+            isClosable: true,
+            id,
+        })
+    }
+        
     return {
         successToast,
         errorToast,
+        promiseToast,
+        toast,
     }
 }

@@ -1,4 +1,5 @@
 import { Box, Flex, Grid, GridItem, Text } from '@chakra-ui/react'
+import { nanoid } from 'nanoid'
 import { useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import TaskCard from '../../components/TaskCard'
@@ -16,8 +17,8 @@ const Board = () => {
 
     console.log(tasksInBoard)
     const { data: board } = useGetBoardById(id)
-    console.log(board)
-    const tasks = getTaskObjectFromList(tasksInBoard)
+    const tasks = getTaskObjectFromList(board?.columns, tasksInBoard)
+    console.log(tasks)
     return (
         <Box>
             <Grid
@@ -31,19 +32,27 @@ const Board = () => {
                         <Text color='secTextColor'>{el?.toUpperCase()}</Text>
                     </GridItem>
                 ))}
-                {Object.values(tasks)?.map((el: any, idx: number) => (
-                    <Flex flexDir={'column'} gap='24px' key={idx}>
-                        {el?.map((task: any) => (
-                            <GridItem key={task?._id}>
-                                <TaskCard
-                                    title={task?.title}
-                                    subtasks={task?.subtasks}
-                                    task={task}
-                                />
-                            </GridItem>
-                        ))}
-                    </Flex>
-                ))}
+
+                {Object.entries(tasks)
+                    ?.map(([k, v]) => v)
+                    ?.map((tasks: any) => (
+                        <GridItem
+                            display={'flex'}
+                            flexDir={'column'}
+                            gap='24px'
+                            key={nanoid()}
+                        >
+                            {tasks?.map((task: any) => (
+                                <Flex key={task?._id}>
+                                    <TaskCard
+                                        title={task?.title}
+                                        subtasks={task?.subtasks}
+                                        task={task}
+                                    />
+                                </Flex>
+                            ))}
+                        </GridItem>
+                    ))}
             </Grid>
         </Box>
     )

@@ -11,13 +11,16 @@ import {
 import { Button, Flex, Heading } from '@chakra-ui/react'
 import { useState } from 'react'
 import { FaEllipsisV, FaPlus } from 'react-icons/fa'
+import { useNavigate } from 'react-router-dom'
 import ModalContainer from '../../components/ModalContainer'
 import { useAppContext } from '../../context/AppContext'
 import { useGetBoardById } from '../../pages/Board/api'
 import { useGetBoards } from '../../pages/Dashboard/api'
+import { DASHBOARD } from '../../routes/pathnames'
 import { useCustomToast } from '../../utils/toast'
-import { useCreateTask, useDeleteBoard } from './api'
+import { useDeleteBoard } from './api'
 import CreateNewTaskModal from './CreateNewTaskModal'
+import UpdateBoardModal from './UpdateBoardModal'
 
 const Navbar = () => {
     const { mutate: mutateDeleteBoard, isLoading: isDeletingBoard } =
@@ -25,16 +28,19 @@ const Navbar = () => {
     const { currentBoard } = useAppContext()
     const { data: board, isLoading } = useGetBoardById(currentBoard)
     const { refetch: refetchBoards } = useGetBoards()
-    const { mutate } = useCreateTask()
+    const navigate = useNavigate()
     const { colorMode } = useColorMode()
     const { successToast, errorToast } = useCustomToast()
     const isDark = colorMode === 'dark'
     const navBarBg = useColorModeValue('light.secBg', 'dark.secBg')
-
+    const [isUpdateBoardOpen, setIsUpdateBoardOpen] = useState(false)
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
     const [showCreateTask, setShowCreateTask] = useState(false)
     const handleCloseDeleteModal = () => {
         setIsDeleteModalOpen(false)
+    }
+    const handleCloseUpdateBoardModal = () => {
+        setIsUpdateBoardOpen(false)
     }
     const handleCloseNewTask = () => {
         setShowCreateTask(false)
@@ -45,6 +51,7 @@ const Navbar = () => {
                 successToast(`Board ${board?.name} deleted successfull`)
                 setIsDeleteModalOpen(false)
                 refetchBoards()
+                navigate(DASHBOARD)
             },
             onError: (err: any) => {
                 errorToast(
@@ -63,7 +70,7 @@ const Navbar = () => {
                 borderBottom={
                     isDark ? '1px solid #3e3f4e' : '1px solid #e4e3fa'
                 }
-                px={['32px']}
+                px={['24px']}
             >
                 <Heading>{board?.name}</Heading>
 
@@ -72,12 +79,13 @@ const Navbar = () => {
                         w='fit-content'
                         leftIcon={<FaPlus />}
                         onClick={() => setShowCreateTask(true)}
+                        isDisabled={!currentBoard}
                     >
                         Add Task
                     </Button>
 
                     <Menu>
-                        <MenuButton disabled={isLoading}>
+                        <MenuButton disabled={isLoading || !currentBoard}>
                             <Icon
                                 as={FaEllipsisV}
                                 color='secTextColor'
@@ -85,7 +93,11 @@ const Navbar = () => {
                             />
                         </MenuButton>
                         <MenuList>
-                            <MenuItem>Edit Board</MenuItem>
+                            <MenuItem
+                                onClick={() => setIsUpdateBoardOpen(true)}
+                            >
+                                Edit Board
+                            </MenuItem>
                             <MenuItem
                                 color='danger'
                                 onClick={() => setIsDeleteModalOpen(true)}
@@ -128,6 +140,11 @@ const Navbar = () => {
                     </Flex>
                 </>
             </ModalContainer>
+            <UpdateBoardModal
+                isOpen={isUpdateBoardOpen}
+                onClose={handleCloseUpdateBoardModal}
+            />
+
             <CreateNewTaskModal
                 isOpen={showCreateTask}
                 onClose={handleCloseNewTask}

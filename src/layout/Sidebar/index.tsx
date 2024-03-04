@@ -65,6 +65,7 @@ const Sidebar = () => {
                         overflowY={'scroll'}
                         ml={['-32px']}
                         pl={'32px'}
+                        gap='8px'
                     >
                         {boards?.map((board: any) => (
                             <Link

@@ -22,7 +22,7 @@ const CreateBoardModal = ({ onClose, isOpen }: IDialog) => {
     const { successToast } = useCustomToast()
     const onSubmit = (values: ICreateBoardBody) => {
         mutateCreateBoard(values, {
-            onSuccess: res => {
+            onSuccess: () => {
                 refetchBoards()
                 successToast(`Board created successfully`)
             },

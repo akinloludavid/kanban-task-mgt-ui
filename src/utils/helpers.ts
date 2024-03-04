@@ -10,14 +10,15 @@ export const setLocalStorage = (key: string, data: any) => {
 export const userInfo = getFromLocalStorage(USER_AUTH_KEY)
 
 
-export const getTaskObjectFromList = (arr: any[]) => {
+export const getTaskObjectFromList = (columns: any[], tasks: any[]) => {
     let obj: any = {}
-    if (!arr) {
-        return obj
-    }
-    arr.forEach(el => {
+    columns?.forEach(el => {
+        obj[el] = []
+    })
+
+    tasks?.forEach(el => {
         const status = el?.status
-        if (!obj[status]) {
+        if (obj[status]?.length === 0) {
             obj[el?.status] = [el]
         } else {
             obj[status].push(el)
