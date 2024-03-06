@@ -38,7 +38,7 @@ const Sidebar = () => {
                 isOpen={showCreateBoard}
             />
             <Flex
-                position={'fixed'}
+                position={'absolute'}
                 left='0px'
                 bottom='80px'
                 w='56px'
