@@ -220,6 +220,7 @@ const CreateBoardModal = ({ onClose, isOpen }: IDialog) => {
                                     type='submit'
                                     isLoading={isBoardCreationLoading}
                                     mt='16px'
+                                    _hover={{}}
                                 >
                                     Create New Board
                                 </Button>

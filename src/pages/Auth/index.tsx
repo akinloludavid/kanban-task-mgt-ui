@@ -1,6 +1,5 @@
-import { Box, Flex, useColorModeValue } from '@chakra-ui/react'
+import { Box, Flex, Image, useColorModeValue } from '@chakra-ui/react'
 import ColorModeToggle from '../../components/ColorModeToggle'
-import Logo from '../../components/Logo'
 import { IChildren } from '../../types'
 
 const AuthContainer = ({ children }: IChildren) => {
@@ -13,7 +12,11 @@ const AuthContainer = ({ children }: IChildren) => {
                 justify='space-between'
                 align={'center'}
             >
-                <Logo />
+                <Image
+                    onClick={() => {}}
+                    src='/assets/logo-mobile.svg'
+                    w={'10%'}
+                />
                 <ColorModeToggle />
             </Flex>
             <Flex

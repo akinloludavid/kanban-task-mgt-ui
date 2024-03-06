@@ -30,7 +30,7 @@ const ModalContainer = ({
     return (
         <Modal isOpen={isOpen} onClose={onClose} isCentered>
             <ModalOverlay />
-            <ModalContent py='24px'>
+            <ModalContent py='24px' w={['90%', '100%']}>
                 <ModalHeader
                     display={'flex'}
                     alignItems='center'

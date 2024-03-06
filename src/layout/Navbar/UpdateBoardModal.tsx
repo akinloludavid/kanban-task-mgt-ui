@@ -215,6 +215,7 @@ const UpdateBoardModal = ({ isOpen, onClose }: IDialog) => {
                                 w='full'
                                 type='submit'
                                 isLoading={isBoardUpdateLoading}
+                                _hover={{}}
                             >
                                 Update Board
                             </Button>

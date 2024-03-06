@@ -254,6 +254,7 @@ const CreateNewTaskModal = ({ isOpen, onClose }: IDialog) => {
                                 w='full'
                                 type='submit'
                                 isLoading={isCreatingTask}
+                                _hover={{}}
                             >
                                 Create Task
                             </Button>

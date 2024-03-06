@@ -8,6 +8,7 @@ const ColorModeToggle = () => {
             as={colorMode === 'dark' ? MdOutlineNightlight : MdOutlineLightMode}
             onClick={toggleColorMode}
             cursor='pointer'
+            fontSize={'24px'}
         />
     )
 }
