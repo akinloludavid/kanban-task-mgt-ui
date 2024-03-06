@@ -13,9 +13,10 @@ import { useNavigate } from 'react-router-dom'
 import CreateBoardModal from '../../layout/Sidebar/CreateBoardModal'
 import { useGetTasksInAllBoards } from '../Board/api'
 import { useGetBoards } from './api'
+import Loader from './Loader'
 
 const Dashboard = () => {
-    const { data: boards } = useGetBoards()
+    const { data: boards, isLoading: isLoadingBoards } = useGetBoards()
     const [isCreateBoardOpen, setIsCreateBoardOpen] = useState(false)
     const cardBgColor = useColorModeValue('light.secBg', 'dark.secBg')
     const navigate = useNavigate()
@@ -26,6 +27,7 @@ const Dashboard = () => {
                 isOpen={isCreateBoardOpen}
                 onClose={() => setIsCreateBoardOpen(false)}
             />
+            {isLoadingBoards && <Loader />}
             {boards?.length === 0 ? (
                 <Flex
                     align={'center'}
