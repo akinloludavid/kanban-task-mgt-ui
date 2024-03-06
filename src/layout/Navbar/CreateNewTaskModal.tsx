@@ -108,12 +108,9 @@ const CreateNewTaskModal = ({ isOpen, onClose }: IDialog) => {
                                 <FieldArray
                                     name='subtasks'
                                     render={arrayHelpers => {
-                                        const columnValues: any = values
                                         const columnTouched: any = touched
                                         const columnErrors: any = errors
-                                        console.log({ columnErrors })
-                                        console.log({ columnValues })
-                                        console.log({ columnTouched })
+
                                         return (
                                             <Flex flexDir={'column'} gap='8px'>
                                                 {values.subtasks.map(

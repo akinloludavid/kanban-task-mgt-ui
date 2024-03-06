@@ -25,6 +25,7 @@ const CreateBoardModal = ({ onClose, isOpen }: IDialog) => {
             onSuccess: () => {
                 refetchBoards()
                 successToast(`Board created successfully`)
+                onClose()
             },
         })
     }
@@ -75,7 +76,6 @@ const CreateBoardModal = ({ onClose, isOpen }: IDialog) => {
                                     <FieldArray
                                         name='columns'
                                         render={arrayHelpers => {
-                                            const columnValues: any = values
                                             const columnTouched: any = touched
                                             const columnErrors: any = errors
 
@@ -199,7 +199,7 @@ const CreateBoardModal = ({ onClose, isOpen }: IDialog) => {
                                                     )}
 
                                                     <Button
-                                                        mt='16px'
+                                                        mt='8px'
                                                         variant={'secondary'}
                                                         w='full'
                                                         onClick={() =>
@@ -219,6 +219,7 @@ const CreateBoardModal = ({ onClose, isOpen }: IDialog) => {
                                     w='full'
                                     type='submit'
                                     isLoading={isBoardCreationLoading}
+                                    mt='16px'
                                 >
                                     Create New Board
                                 </Button>

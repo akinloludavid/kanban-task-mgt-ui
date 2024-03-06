@@ -1,4 +1,4 @@
-import { FormikHelpers, FormikProps, useFormik } from 'formik'
+import { FormikHelpers, FormikValues, useFormik } from 'formik'
 import * as Yup from 'yup'
 
 interface ICustomFormik<T> {
@@ -6,7 +6,7 @@ interface ICustomFormik<T> {
     validationSchema: Record<string, any>
     onSubmit: (values: T, formikHelpers?: FormikHelpers<T>) => void
 }
-export const useCustomFormik = <T>({
+export const useCustomFormik = <T extends FormikValues>({
     initialValues,
     validationSchema,
     onSubmit,

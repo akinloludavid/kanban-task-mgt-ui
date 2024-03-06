@@ -34,18 +34,29 @@ interface ITaskCard {
     subtasks: ISubtask[]
     task?: any
 }
+
 const TaskCard = ({ title, subtasks, task }: ITaskCard) => {
-    console.log(task)
+    /**
+     *
+     * todo
+     * Drag and drop implementation to be done later
+     */
+    // const [collected, drag] = useDrag(() => ({
+    //     type: ItemTypes.TASK,
+    //     item: task,
+    //     end: (item, monitor) => {
+    //         const dropResult = monitor.getDropResult<DropResult>()
+    //     },
+    //     collect: monitor => ({
+    //         isDragging: monitor.isDragging(),
+    //         handlerId: monitor.getHandlerId(),
+    //     }),
+    // }))
     const taskBgColor = useColorModeValue('light.secBg', 'dark.secBg')
     const subtaskBgColor = useColorModeValue('light.mainBg', 'dark.mainBg')
-
-    const titleColor = useColorModeValue(
-        'lightMode.textColor',
-        'lightMode.textColor',
-    )
     const subTaskColor = useColorModeValue('secTextColor', 'secTextColor')
 
-    const doneSubTasks = subtasks.filter(item => item.done).length
+    const doneSubTasks = subtasks?.filter(item => item.done)?.length
     const [isOpen, setIsOpen] = useState(false)
     const [isFieldDisabled, setFieldDisabled] = useState(true)
     const handleEditTask = () => {
@@ -57,8 +68,7 @@ const TaskCard = ({ title, subtasks, task }: ITaskCard) => {
     const { refetch: refetchTasksInBoard } = useGetTasksInABoard(currentBoard)
     const { mutate: mutateUpdateTask, isLoading: isUpdatingTask } =
         useUpdateTask(task?._id)
-    const { mutate: mutateDeleteTask, isLoading: isDeletingTask } =
-        useDeleteTask(task?._id)
+    const { mutate: mutateDeleteTask } = useDeleteTask(task?._id)
     const { successToast, errorToast, promiseToast, toast } = useCustomToast()
     const onSubmit = (values: ICreateTask, { resetForm }: any) => {
         mutateUpdateTask(values, {
@@ -114,6 +124,7 @@ const TaskCard = ({ title, subtasks, task }: ITaskCard) => {
     }
     return (
         <Box
+            // ref={drag}
             bgColor={taskBgColor}
             borderRadius='8px'
             px='16px'
@@ -129,7 +140,9 @@ const TaskCard = ({ title, subtasks, task }: ITaskCard) => {
             shadow='lg'
             role='button'
             w='full'
+            // opacity={collected.isDragging ? 0.8 : 1}
             onClick={() => setIsOpen(true)}
+            // {...collected}
         >
             <ModalContainer isOpen={isOpen} onClose={handleModalClose}>
                 <Formik
@@ -332,8 +345,6 @@ const TaskCard = ({ title, subtasks, task }: ITaskCard) => {
                                             <FieldArray
                                                 name='subtasks'
                                                 render={arrayHelpers => {
-                                                    const columnValues: any =
-                                                        values
                                                     const columnTouched: any =
                                                         touched
                                                     const columnErrors: any =
@@ -532,7 +543,7 @@ const TaskCard = ({ title, subtasks, task }: ITaskCard) => {
                     )}
                 </Formik>
             </ModalContainer>
-            <Heading color={titleColor} variant={'h2'} as='h2'>
+            <Heading variant={'h2'} as='h2'>
                 {title}
             </Heading>
             <Text color={subTaskColor}>

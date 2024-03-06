@@ -4,7 +4,6 @@ import {
     Flex,
     Heading,
     Icon,
-    Input,
     InputGroup,
     Link,
     Text,

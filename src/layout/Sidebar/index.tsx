@@ -3,7 +3,6 @@ import {
     Button,
     Flex,
     Icon,
-    Image,
     Link,
     Switch,
     Text,
@@ -17,23 +16,21 @@ import { IoEyeOutline } from 'react-icons/io5'
 import { MdDarkMode, MdLightMode } from 'react-icons/md'
 import { useColorMode } from '@chakra-ui/react'
 import { useGetBoards } from '../../pages/Dashboard/api'
-import { NavLink, useLocation } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 import CreateBoardModal from './CreateBoardModal'
 import { useState } from 'react'
+import { useAppContext } from '../../context/AppContext'
+import { isNavActive } from '../../utils/helpers'
 
 const Sidebar = () => {
     const { data: boards } = useGetBoards()
-
     const [showCreateBoard, setShowCreateBoard] = useState(false)
-
+    const { showSidebar, setShowSidebar } = useAppContext()
     const sideBarBg = useColorModeValue('light.secBg', 'dark.secBg')
     const colorModeSwitchBg = useColorModeValue('light.mainBg', 'dark.mainBg')
-    const { toggleColorMode, colorMode } = useColorMode()
+    const { toggleColorMode, colorMode, setColorMode } = useColorMode()
     const isDark = colorMode === 'dark'
-    const location = useLocation()
-    const isNavActive = (str: string) => {
-        return location.pathname.includes(str)
-    }
+
     return (
         <>
             <CreateBoardModal
@@ -41,16 +38,33 @@ const Sidebar = () => {
                 isOpen={showCreateBoard}
             />
             <Flex
+                position={'fixed'}
+                left='0px'
+                bottom='80px'
+                w='56px'
+                h='48px'
+                bgColor={'pryColor'}
+                display={['none', showSidebar ? 'none' : 'flex']}
+                align={'center'}
+                justify='center'
+                borderRightRadius='28px'
+                cursor={'pointer'}
+                zIndex={'99999'}
+                onClick={() => setShowSidebar(true)}
+            >
+                <Icon as={IoEyeOutline} color='white' />
+            </Flex>
+            <Flex
                 flexDir={'column'}
                 h='100vh'
                 position={'absolute'}
                 inset={0}
                 w={['300px']}
-                py={['32px']}
-                px={['32px']}
+                p={['32px']}
                 borderRight={isDark ? '1px solid #3e3f4e' : '1px solid #e4e3fa'}
                 gap={['72px']}
                 bgColor={sideBarBg}
+                display={['none', showSidebar ? 'flex' : 'none']}
             >
                 <Logo />
                 <Flex flexDir={'column'}>
@@ -136,6 +150,7 @@ const Sidebar = () => {
                             fontSize='24px'
                             color='secTextColor'
                             cursor={'pointer'}
+                            onClick={() => setColorMode('light')}
                         />
 
                         <Switch
@@ -148,17 +163,32 @@ const Sidebar = () => {
                             fontSize='24px'
                             color='secTextColor'
                             cursor={'pointer'}
+                            onClick={() => setColorMode('dark')}
                         />
                     </Flex>
-                    <Flex gap='16px' align={'center'} p={'12px'}>
+                    <Flex
+                        gap='16px'
+                        align={'center'}
+                        p={'12px'}
+                        cursor='pointer'
+                        onClick={() => {
+                            setShowSidebar(false)
+                        }}
+                    >
                         <Icon as={IoEyeOffOutline} color='secTextColor' />
-                        <Text
+                        <Button
                             color='secTextColor'
-                            variant={'medium'}
+                            w='fit-content'
+                            variant={'ghost'}
+                            p='0px'
+                            py='0px'
                             fontWeight='600'
+                            fontSize={'13px'}
+                            _hover={{}}
+                            _active={{}}
                         >
                             Hide Sidebar
-                        </Text>
+                        </Button>
                     </Flex>
                 </Box>
             </Flex>

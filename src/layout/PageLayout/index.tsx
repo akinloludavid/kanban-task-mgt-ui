@@ -1,4 +1,5 @@
 import { Box, useColorModeValue } from '@chakra-ui/react'
+import { useAppContext } from '../../context/AppContext'
 import { IChildren } from '../../types'
 import Navbar from '../Navbar'
 import Sidebar from '../Sidebar'
@@ -9,6 +10,8 @@ export const PublicPageLayout = ({ children }: IChildren) => {
 
 export const PrivatePageLayout = ({ children }: IChildren) => {
     const secBg = useColorModeValue('light.mainBg', 'dark.mainBg')
+    const { showSidebar } = useAppContext()
+
     return (
         <Box
             mx='auto'
@@ -18,7 +21,7 @@ export const PrivatePageLayout = ({ children }: IChildren) => {
             minH='100vh'
         >
             <Sidebar />
-            <Box pl={['300px']} h={'100%'}>
+            <Box pl={[showSidebar ? '300px' : '0px']} h={'100%'}>
                 <Navbar />
                 <Box p='24px' h={'calc(100vh - 96px)'} overflowY='scroll'>
                     {children}

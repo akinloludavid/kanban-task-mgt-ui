@@ -10,6 +10,7 @@ import { useGetBoardById, useGetTasksInABoard } from './api'
 import Loader from './Loader'
 
 const Board = () => {
+    const [showEditBoard, setShowEditBoard] = useState(false)
     const { id = '' } = useParams()
     const { setCurrentBoard } = useAppContext()
     useEffect(() => {
@@ -20,7 +21,7 @@ const Board = () => {
 
     const { data: board, isLoading: isLoadingBoard } = useGetBoardById(id)
     const tasks = getTaskObjectFromList(board?.columns, tasksInBoard)
-    const [showEditBoard, setShowEditBoard] = useState(false)
+
     return (
         <Box>
             <UpdateBoardModal
@@ -32,10 +33,10 @@ const Board = () => {
             ) : board?.columns?.length === 0 ? (
                 <Flex
                     w='100%'
-                    h='100vh'
+                    h={`calc(100vh - 96px)`}
                     justify={'center'}
                     align='center'
-                    gap='54px'
+                    gap='36px'
                     flexDir={'column'}
                 >
                     <Text color='secTextColor'>
@@ -45,7 +46,7 @@ const Board = () => {
                         w='fit-content'
                         onClick={() => setShowEditBoard(true)}
                     >
-                        +Add New Column
+                        + Add New Column
                     </Button>
                 </Flex>
             ) : (

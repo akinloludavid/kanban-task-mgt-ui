@@ -7,22 +7,27 @@ import {
     Text,
     useColorMode,
     useColorModeValue,
+    useMediaQuery,
 } from '@chakra-ui/react'
 import { Button, Flex, Heading } from '@chakra-ui/react'
 import { useState } from 'react'
-import { FaEllipsisV, FaPlus } from 'react-icons/fa'
+import { FaChevronDown, FaEllipsisV, FaPlus } from 'react-icons/fa'
 import { useNavigate } from 'react-router-dom'
+import Logo from '../../components/Logo'
 import ModalContainer from '../../components/ModalContainer'
 import { useAppContext } from '../../context/AppContext'
 import { useGetBoardById } from '../../pages/Board/api'
 import { useGetBoards } from '../../pages/Dashboard/api'
 import { DASHBOARD } from '../../routes/pathnames'
+import { handleLogout } from '../../utils/helpers'
 import { useCustomToast } from '../../utils/toast'
+import MobileMenu from '../Sidebar/MobileSideMenu'
 import { useDeleteBoard } from './api'
 import CreateNewTaskModal from './CreateNewTaskModal'
 import UpdateBoardModal from './UpdateBoardModal'
 
 const Navbar = () => {
+    const [isMobile] = useMediaQuery(['(max-width: 480px)'])
     const { mutate: mutateDeleteBoard, isLoading: isDeletingBoard } =
         useDeleteBoard()
     const { currentBoard } = useAppContext()
@@ -36,6 +41,7 @@ const Navbar = () => {
     const [isUpdateBoardOpen, setIsUpdateBoardOpen] = useState(false)
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
     const [showCreateTask, setShowCreateTask] = useState(false)
+    const [showDialog, setShowDialog] = useState(false)
     const handleCloseDeleteModal = () => {
         setIsDeleteModalOpen(false)
     }
@@ -62,6 +68,10 @@ const Navbar = () => {
     }
     return (
         <>
+            <MobileMenu
+                isOpen={showDialog}
+                onClose={() => setShowDialog(false)}
+            />
             <Flex
                 bgColor={navBarBg}
                 h={['96px']}
@@ -72,24 +82,64 @@ const Navbar = () => {
                 }
                 px={['24px']}
             >
-                <Heading>{board?.name}</Heading>
+                <>
+                    <Flex gap='16px' align={'center'}>
+                        {isMobile && <Logo />}
+                        <Flex
+                            align={'center'}
+                            gap='12px'
+                            display={board?.name ? 'flex' : 'none'}
+                        >
+                            <Heading
+                                onClick={() => {
+                                    if (isMobile) {
+                                        setShowDialog(true)
+                                    }
+                                }}
+                                variant={['h2', 'h1']}
+                            >
+                                {board?.name}
+                            </Heading>
+                            <Icon
+                                as={FaChevronDown}
+                                display={['flex', 'none']}
+                                fontSize='12px'
+                                color='pryColor'
+                            />
+                        </Flex>
+                    </Flex>
+                </>
 
                 <Flex align={'center'} gap='16px'>
                     <Button
                         w='fit-content'
-                        leftIcon={<FaPlus />}
+                        leftIcon={isMobile ? undefined : <FaPlus />}
                         onClick={() => setShowCreateTask(true)}
                         isDisabled={!currentBoard}
+                        _hover={{}}
                     >
-                        Add Task
+                        {isMobile ? (
+                            <>
+                                <FaPlus />
+                            </>
+                        ) : (
+                            'Add Task'
+                        )}
                     </Button>
 
                     <Menu>
-                        <MenuButton disabled={isLoading || !currentBoard}>
+                        <MenuButton
+                            disabled={isLoading || !currentBoard}
+                            display={'flex'}
+                            alignItems='center'
+                            mb='-6px'
+                        >
                             <Icon
                                 as={FaEllipsisV}
                                 color='secTextColor'
                                 cursor={'pointer'}
+                                h='100%'
+                                my='0px'
                             />
                         </MenuButton>
                         <MenuList>
@@ -103,6 +153,9 @@ const Navbar = () => {
                                 onClick={() => setIsDeleteModalOpen(true)}
                             >
                                 Delete Board
+                            </MenuItem>
+                            <MenuItem color='danger' onClick={handleLogout}>
+                                Logout
                             </MenuItem>
                         </MenuList>
                     </Menu>

@@ -1,4 +1,4 @@
-import { useQuery } from 'react-query'
+import { useQueries, useQuery } from 'react-query'
 import axiosInstance from '../../api'
 
 const getTasksInBoard = async (boardId: string) => {
@@ -16,6 +16,18 @@ export const useGetTasksInABoard = (boardId: string) => {
         queryFn: () => getTasksInBoard(boardId),
         enabled: !!boardId,
     })
+}
+
+export const useGetTasksInAllBoards = (boards: any[] = []) => {
+    return (
+        useQueries(
+            boards?.map(board => ({
+                queryKey: [`/board/${board?._id}`],
+                queryFn: () => getTasksInBoard(board?._id),
+                enabled: !!boards,
+            })),
+        ) || []
+    )
 }
 
 export const useGetBoardById = (boardId: string) => {

@@ -1,10 +1,4 @@
-import {
-    Box,
-    Flex,
-    Image,
-    useColorMode,
-    useColorModeValue,
-} from '@chakra-ui/react'
+import { Box, Flex, useColorModeValue } from '@chakra-ui/react'
 import ColorModeToggle from '../../components/ColorModeToggle'
 import Logo from '../../components/Logo'
 import { IChildren } from '../../types'
@@ -31,7 +25,7 @@ const AuthContainer = ({ children }: IChildren) => {
                 flexDir={'column'}
                 borderRadius='4px'
                 my={'120px'}
-                p={['8px', '24px', '48px']}
+                p={['16px', '24px', '48px']}
             >
                 {children}
             </Flex>
