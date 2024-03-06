@@ -12,7 +12,7 @@ import {
 import { Button, Flex, Heading } from '@chakra-ui/react'
 import { useState } from 'react'
 import { FaChevronDown, FaEllipsisV, FaPlus } from 'react-icons/fa'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import Logo from '../../components/Logo'
 import ModalContainer from '../../components/ModalContainer'
 import { useAppContext } from '../../context/AppContext'
@@ -34,6 +34,7 @@ const Navbar = () => {
     const { data: board, isLoading } = useGetBoardById(currentBoard)
     const { refetch: refetchBoards } = useGetBoards()
     const navigate = useNavigate()
+    const location = useLocation()
     const { colorMode } = useColorMode()
     const { successToast, errorToast } = useCustomToast()
     const isDark = colorMode === 'dark'
@@ -83,6 +84,9 @@ const Navbar = () => {
                 px={['24px']}
             >
                 <>
+                    {location.pathname === DASHBOARD ? (
+                        <Heading variant={['h2', 'h1']}>All Boards</Heading>
+                    ) : null}
                     <Flex gap='16px' align={'center'}>
                         {isMobile && <Logo />}
                         <Flex
