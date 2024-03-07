@@ -5,7 +5,11 @@ import Navbar from '../Navbar'
 import Sidebar from '../Sidebar'
 
 export const PublicPageLayout = ({ children }: IChildren) => {
-    return <Box>{children}</Box>
+    return (
+        <Box mx='auto' maxW='1440px'>
+            {children}
+        </Box>
+    )
 }
 
 export const PrivatePageLayout = ({ children }: IChildren) => {

@@ -1,4 +1,7 @@
 import {
+    Drawer,
+    DrawerContent,
+    DrawerOverlay,
     Heading,
     Icon,
     Modal,
@@ -6,6 +9,7 @@ import {
     ModalContent,
     ModalHeader,
     ModalOverlay,
+    useMediaQuery,
 } from '@chakra-ui/react'
 import { IChildren } from '../../types'
 import { IoEllipsisVertical } from 'react-icons/io5'
@@ -27,31 +31,48 @@ const ModalContainer = ({
     titleColor,
     onClickOptions,
 }: IModalContainer) => {
+    const [isMobile] = useMediaQuery(['(max-width: 480px)'])
+
     return (
-        <Modal isOpen={isOpen} onClose={onClose} isCentered>
-            <ModalOverlay />
-            <ModalContent py='24px' w={['90%', '100%']}>
-                <ModalHeader
-                    display={'flex'}
-                    alignItems='center'
-                    justifyContent={'space-between'}
-                    my='0'
-                    py='0'
-                    mb={title ? '16px' : 0}
-                >
-                    <Heading color={titleColor}>{title}</Heading>
-                    <Icon
-                        display={showOptions ? 'flex' : 'none'}
-                        as={IoEllipsisVertical}
-                        cursor='pointer'
-                        onClick={onClickOptions}
-                    />
-                </ModalHeader>
-                <ModalBody py='0px' px='24px'>
-                    {children}
-                </ModalBody>
-            </ModalContent>
-        </Modal>
+        <>
+            {isMobile ? (
+                <Drawer isOpen={isOpen} placement='bottom' onClose={onClose}>
+                    <DrawerOverlay />
+                    <DrawerContent
+                        overflowY={'scroll'}
+                        p={['32px']}
+                        borderTopRadius='16px'
+                    >
+                        {children}
+                    </DrawerContent>
+                </Drawer>
+            ) : (
+                <Modal isOpen={isOpen} onClose={onClose} isCentered>
+                    <ModalOverlay />
+                    <ModalContent py='24px' w={['90%', '100%']}>
+                        <ModalHeader
+                            display={'flex'}
+                            alignItems='center'
+                            justifyContent={'space-between'}
+                            my='0'
+                            py='0'
+                            mb={title ? '16px' : 0}
+                        >
+                            <Heading color={titleColor}>{title}</Heading>
+                            <Icon
+                                display={showOptions ? 'flex' : 'none'}
+                                as={IoEllipsisVertical}
+                                cursor='pointer'
+                                onClick={onClickOptions}
+                            />
+                        </ModalHeader>
+                        <ModalBody py='0px' px='24px'>
+                            {children}
+                        </ModalBody>
+                    </ModalContent>
+                </Modal>
+            )}
+        </>
     )
 }
 

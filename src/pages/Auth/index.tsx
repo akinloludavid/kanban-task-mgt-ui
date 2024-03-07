@@ -16,6 +16,7 @@ const AuthContainer = ({ children }: IChildren) => {
                     onClick={() => {}}
                     src='/assets/logo-mobile.svg'
                     w={'10%'}
+                    maxW='64px'
                 />
                 <ColorModeToggle />
             </Flex>

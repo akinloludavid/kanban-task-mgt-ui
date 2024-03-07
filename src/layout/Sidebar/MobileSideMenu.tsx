@@ -33,7 +33,7 @@ const MobileMenu = ({ isOpen, onClose }: IDialog) => {
         <>
             <Drawer isOpen={isOpen} placement='bottom' onClose={onClose}>
                 <DrawerOverlay />
-                <DrawerContent p={['32px']}>
+                <DrawerContent p={['32px']} borderTopRadius='16px'>
                     <CreateBoardModal
                         onClose={() => setShowCreateBoard(false)}
                         isOpen={showCreateBoard}
@@ -64,6 +64,8 @@ const MobileMenu = ({ isOpen, onClose }: IDialog) => {
                                             ? 'pryColor'
                                             : ''
                                     }
+                                    _focusVisible={{}}
+                                    border='0px'
                                     py='12px'
                                     display={'flex'}
                                     alignItems='center'
