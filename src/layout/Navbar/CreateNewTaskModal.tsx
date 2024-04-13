@@ -182,11 +182,9 @@ const CreateNewTaskModal = ({ isOpen, onClose }: IDialog) => {
                                                                         .subtasks[
                                                                         index
                                                                     ]?.subtitle
-                                                                        ? values
-                                                                              .subtasks[
+                                                                        ? values.subtasks[
                                                                               index
-                                                                          ]
-                                                                              ?.subtitle
+                                                                          ]?.subtitle?.trim()
                                                                         : ''
                                                                 }
                                                             />

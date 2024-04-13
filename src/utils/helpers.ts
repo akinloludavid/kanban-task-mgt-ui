@@ -19,7 +19,7 @@ export const getTaskObjectFromList = (columns: any[], tasks: any[]) => {
     tasks?.forEach(el => {
         const status = el?.status
         if (obj[status]?.length === 0) {
-            obj[el?.status] = [el]
+            obj[status] = [el]
         } else {
             obj[status]?.push(el)
         }

@@ -172,14 +172,12 @@ const CreateBoardModal = ({ onClose, isOpen }: IDialog) => {
                                                                         }
                                                                     }}
                                                                     value={
-                                                                        values
-                                                                            .columns[
+                                                                        values.columns[
                                                                             index
-                                                                        ]
-                                                                            ? values
-                                                                                  .columns[
+                                                                        ]?.trim()
+                                                                            ? values.columns[
                                                                                   index
-                                                                              ]
+                                                                              ]?.trim()
                                                                             : ''
                                                                     }
                                                                 />

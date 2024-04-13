@@ -21,7 +21,7 @@ const Board = () => {
 
     const { data: board, isLoading: isLoadingBoard } = useGetBoardById(id)
     const tasks = getTaskObjectFromList(board?.columns, tasksInBoard)
-
+    console.log(Object.entries(tasks))
     return (
         <Box>
             <UpdateBoardModal
